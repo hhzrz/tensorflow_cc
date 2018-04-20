@@ -50,10 +50,14 @@ apt-get -y install \
 
 if $shared; then
     # install bazel for the shared library version
-    echo "deb [arch=amd64] http://storage.googleapis.com/bazel-apt stable jdk1.8" | tee /etc/apt/sources.list.d/bazel.list
-    curl https://bazel.build/bazel-release.pub.gpg | apt-key add -
-    apt-get -y update
-    apt-get -y install openjdk-8-jdk bazel
+    apt-get -y update \
+    && apt-get install -y --no-install-recommends \
+    openjdk-8-jdk \
+    bash-completion \
+    g++ \
+    zlib1g-dev \
+    && curl -LO "https://github.com/bazelbuild/bazel/releases/download/0.11.1/bazel_0.11.1-linux-x86_64.deb" \
+    && dpkg -i bazel_*.deb
 fi
 if $cuda; then
     # install libcupti
